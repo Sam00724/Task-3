@@ -1,0 +1,166 @@
+//BookManagementSystem.java
+
+import java.util.Scanner;
+import java.util.ArrayList;
+
+class Book {
+    int bookID;
+    String title;
+    String author;
+    boolean isAvailable;
+
+    public Book(int bookID, String title, String author) {
+        this.bookID = bookID;
+        this.title = title;
+        this.author = author;
+        this.isAvailable = true;
+    }
+
+    public int getBookID() {
+        return bookID;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public boolean isAvailable() {
+        return isAvailable;
+    }
+
+    public void borrowBook() {
+        isAvailable = false;
+    }
+
+    public void returnBook() {
+        isAvailable = true;
+    }
+
+    @Override
+    public String toString() {
+        return "Book ID: " + bookID + "\nTitle: " + title + "\nAuthor: " + author + "\nAvailable: " + isAvailable;
+    }
+}
+
+
+class Library {
+    private ArrayList<Book> books;
+
+    public Library() {
+        this.books = new ArrayList<Book>();
+    }
+
+    public void addBook(Book book) {
+        books.add(book);
+    }
+
+    public boolean removeBook(int bookID) {
+        for (int i = 0; i < books.size(); i++) {
+            if (books.get(i).getBookID() == bookID) {
+                books.remove(i);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean searchBook(int bookID) {
+        for (Book book : books) {
+            if (book.getBookID() == bookID) {
+                System.out.println(book);
+                return true;
+            }
+        }
+        System.out.println("Book not found.");
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (Book book : books) {
+            sb.append(book).append("\n");
+        }
+        return sb.toString();
+    }
+}
+
+
+public class BookManagementSystem {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Library library = new Library();
+
+        while (true) {
+            System.out.println("\nLibrary Management System\n");
+            System.out.println("1. Add Book");
+            System.out.println("2. Remove Book");
+            System.out.println("3. Search Book");
+            System.out.println("4. Display Books");
+            System.out.println("5. Exit");
+            System.out.print("Enter your choice: ");
+            int choice = scanner.nextInt();
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter book ID: ");
+                    int bookID = scanner.nextInt();
+                    scanner.nextLine(); // Consume newline character
+                    System.out.print("Enter title: ");
+                    String title = scanner.nextLine();
+                    System.out.print("Enter author: ");
+                    String author = scanner.nextLine();
+                    library.addBook(new Book(bookID, title, author));
+                    System.out.println("Book added successfully.");
+                    break;
+                case 2:
+                    System.out.print("Enter book ID to remove: ");
+                    bookID = scanner.nextInt();
+                    if (library.removeBook(bookID)) {
+                        System.out.println("Book removed successfully.");
+                    } else {
+                        System.out.println("Book not found.");
+                    }
+                    break;
+                                    case 3:
+                    System.out.print("Enter book ID to search: ");
+                    bookID = scanner.nextInt();
+                    if (library.searchBook(bookID)) {
+                        System.out.println("Book found.");
+                    } else {
+                        System.out.println("Book not found.");
+                    }
+                    break;
+                case 4:
+                    System.out.println(library);
+                    break;
+                case 5:
+                    System.out.println("Exiting...");
+                    System.exit(0);
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+                    break;
+            }
+        }
+    }
+}
+
+OUTPUT:
+
+Library Management System
+
+1. Add Book
+2. Remove Book
+3. Search Book
+4. Display Books
+5. Exit
+Enter your choice: 1
+Enter book ID: 565
+Enter title: Shervin
+Enter author: Sam
+Book added successfully.
